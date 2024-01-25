@@ -8,7 +8,6 @@ public class WhatAGameAi extends Player {
     //TODO: fill in your name here
     super(counter, WhatAGameAi.class.getName());
   }
-
   @Override
   public int makeMove(Board board) {
     //TODO: some crazy analysis
