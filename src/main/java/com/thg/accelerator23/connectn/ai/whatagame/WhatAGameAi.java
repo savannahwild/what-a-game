@@ -3,9 +3,10 @@ import com.thehutgroup.accelerator.connectn.player.Board;
 import com.thehutgroup.accelerator.connectn.player.Counter;
 import com.thehutgroup.accelerator.connectn.player.Player;
 import com.thehutgroup.accelerator.connectn.player.Position;
-import com.thg.accelerator23.connectn.ai.whatagame.GenerateRandom;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 public class WhatAGameAi extends Player {
     private String[][] b;
     private String marker;
@@ -28,6 +29,10 @@ public class WhatAGameAi extends Player {
           b[x][y] = counterString;
         }
       }
+    }
+    public int generateRandomPosition(){
+      Random rand = new Random();
+      return rand.nextInt(10);
     }
 
     public void setMarkers() {
@@ -248,10 +253,8 @@ public class WhatAGameAi extends Player {
     }
 
     public void randomMove() {
-      GenerateRandom genRand = new GenerateRandom();
-      pos = genRand.generate();
       while (board.hasCounterAtPosition(new Position(pos, board.getConfig().getHeight() - 2))) {
-        pos = genRand.generate();
+        pos = generateRandomPosition();
       }
     }
 
