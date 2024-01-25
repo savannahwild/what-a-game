@@ -134,34 +134,6 @@ public class WhatAGameAi extends Player {
       }
     }
 
-    //    public void defend() {
-//        for (int i=0; i < 10; i++){
-//            for (int j=0;  j < 8;j++){
-//                if (j<4 && pos==10){
-//                    if (b[i][j].equals(opp)&&b[i][j+1].equals(opp)&&b[i][j+2].equals(opp)&&!b[i][j+3].equals(marker)) {
-//                        pos = i;
-//                        break;
-//                    }
-//                }
-//                if (i<8 && pos==10){
-//            if (b[i][j].equals(opp)&&b[i+1][j].equals(opp)&&b[i+2][j].equals(opp)){
-//                if (i<7&&b[i+3][j].isEmpty()){
-//                    pos = i+3;
-//                    break;
-//                }
-//                else{
-//                    if (i>0&&b[i-1][j].isEmpty()){
-//                        pos = i-1;
-//                        break;
-//                    }}
-//                if (i==7&&b[i-1][j].isEmpty()){
-//                    pos = i-1;
-//                    break;
-//                }
-//                break;
-//            }
-//        }
-//    }}}
     public void nextBestDefend() {
       for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 8; j++) {
@@ -253,6 +225,7 @@ public class WhatAGameAi extends Player {
     }
 
     public void randomMove() {
+      pos = generateRandomPosition();
       while (board.hasCounterAtPosition(new Position(pos, board.getConfig().getHeight() - 2))) {
         pos = generateRandomPosition();
       }
