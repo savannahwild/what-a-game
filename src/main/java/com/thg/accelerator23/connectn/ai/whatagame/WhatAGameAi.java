@@ -13,7 +13,6 @@ public class WhatAGameAi extends Player {
   private Board board;
 
   public WhatAGameAi(Counter counter) {
-    //TODO: fill in your name here
     super(counter, WhatAGameAi.class.getName());
   }
 
@@ -41,58 +40,31 @@ public class WhatAGameAi extends Player {
       opp = "O";
     }
   }
-
-  public void attack() {
+  public void downDefend(){
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 8; j++) {
-//                diag
-        if (i < 7 && j < 5 && pos == 10 && b[i][j].equals(marker) && b[i + 1][j + 1].equals(marker) && b[i + 2][j + 2].equals(marker)) {
-          if ( b[i + 3][j + 3].isEmpty()&&!b[i + 3][j + 2].isEmpty()){
-            pos = i + 3;
-            break;}
-          if (j>0&&i>0&&b[i -1][j-1].isEmpty()){
-            pos = i-1;
-            break;
-          }
-        }
-        if (i > 2 && j < 5 && pos == 10 && b[i][j].equals(marker) && b[i - 1][j + 1].equals(marker) && b[i - 2][j + 2].equals(marker)){
-          if (b[i - 3][j + 3].isEmpty() && !b[i - 3][j + 2].isEmpty()){
-            pos = i - 3;
-            break;}
-          if (j>0&&i<9&&b[i+1][j-1].isEmpty()){
-            pos = i+1;
-            break;
-          }
-        }
-//                down
-        if (j < 4 && pos == 10 && b[i][j].equals(marker) && b[i][j + 1].equals(marker) && b[i][j + 2].equals(marker) && b[i][j + 3].isEmpty()) {
+        //                down
+        if (j < 5 && pos == 10 && b[i][j].equals(opp) && b[i][j + 1].equals(opp) && b[i][j + 2].equals(opp) && b[i][j + 3].isEmpty()) {
           pos = i;
           break;
-        }
-//                across
-        if (i < 7 && pos == 10 && b[i][j].equals(marker) && b[i + 1][j].equals(marker) && b[i + 2][j].equals(marker)) {
-          int under = j;
-          if (j > 0) {
-            under -= 1;
-          }
-          if (i < 6 && b[i + 3][j].isEmpty()&&(!b[i + 3][under].isEmpty() || (j == 0&&b[i+3][0].isEmpty()))) {
-            pos = i + 3;
-            break;
-          }
-          if (i > 0 && b[i - 1][j].isEmpty()&&(!b[i - 1][under].isEmpty() || (j == 0&&b[i=1][0].isEmpty()))) {
-            pos = i - 1;
-            break;
-          }
-        }
-      }
-    }
+        }}}
   }
-
-  public void defend() {
+  public void threeDownAttack(){
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 8; j++) {
+        //                down
+        if (j < 5 && pos == 10 && b[i][j].equals(marker) && b[i][j + 1].equals(marker) && b[i][j + 2].equals(marker) && b[i][j + 3].isEmpty()) {
+          pos = i;
+          break;
+        }}}
+  }
+  public void threeRow(String currentMarker){
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 8; j++) {
+
 //                diag
-        if (i < 7 && j < 5 && pos == 10 && b[i][j].equals(opp) && b[i + 1][j + 1].equals(opp) && b[i + 2][j + 2].equals(opp)){
+//                    /
+        if (i < 7 && j < 5 && pos == 10 && b[i][j].equals(currentMarker) && b[i + 1][j + 1].equals(currentMarker) && b[i + 2][j + 2].equals(currentMarker)){
           if (j>0&&i>0&&b[i-1][j-1].isEmpty()){
             pos = i-1;
             break;
@@ -101,7 +73,8 @@ public class WhatAGameAi extends Player {
             pos = i + 3;
             break;}
         }
-        if (i > 2 && j < 5 && pos == 10 && b[i][j].equals(opp) && b[i - 1][j + 1].equals(opp) && b[i - 2][j + 2].equals(opp)){
+//                    \
+        if (i > 2 && j < 5 && pos == 10 && b[i][j].equals(currentMarker) && b[i - 1][j + 1].equals(currentMarker) && b[i - 2][j + 2].equals(currentMarker)){
           if (j>0&&i<9&&b[i+1][j-1].isEmpty()){
             pos = i+1;
             break;
@@ -110,18 +83,14 @@ public class WhatAGameAi extends Player {
             pos = i-3;
             break;}
         }
-//                down
-        if (j < 4 && pos == 10 && b[i][j].equals(opp) && b[i][j + 1].equals(opp) && b[i][j + 2].equals(opp) && b[i][j + 3].isEmpty()) {
-          pos = i;
-          break;
-        }
+
 //                across
-        if (i < 7 && pos == 10 && b[i][j].equals(opp) && b[i + 1][j].equals(opp) && b[i + 2][j].equals(opp)) {
+        if (i < 7 && pos == 10 && b[i][j].equals(currentMarker) && b[i + 1][j].equals(currentMarker) && b[i + 2][j].equals(currentMarker)) {
           int under = j;
           if (j > 0) {
             under -= 1;
           }
-          if (i < 6 && b[i + 3][j].isEmpty()&&((j>0&&!b[i + 3][under].isEmpty()) || (j == 0&&b[i+3][0].isEmpty()))) {
+          if (b[i + 3][j].isEmpty()&&((j>0&&!b[i + 3][under].isEmpty())|| (j == 0&&b[i+3][0].isEmpty()))) {
             pos = i + 3;
             break;
           }
@@ -130,45 +99,119 @@ public class WhatAGameAi extends Player {
             break;
           }
         }
-        if (i < 9 &&i>1 &&pos == 10 && b[i][j].equals(opp) && b[i + 1][j].equals(opp)) {
+        if (i>2 &&pos == 10 && b[i][j].equals(currentMarker) && b[i - 1][j].equals(currentMarker)) {
           int under = j;
           if (j > 0) {
             under -= 1;
           }
-          if (b[i - 2][j].equals(opp)&&((j>0&&!b[i - 1][under].isEmpty()) || (j == 0&&b[i-1][0].isEmpty()))){
-            pos = i-1;
+          if (b[i - 3][j].equals(currentMarker)&&((j>0&&!b[i - 2][under].isEmpty()) || (j == 0&&b[i-2][0].isEmpty()))){
+            pos = i-2;
             break;
           }
         }
-        if (i < 7 &&pos == 10 && b[i][j].equals(opp) && b[i + 1][j].equals(opp)) {
+        if (i < 7 && pos == 10 && b[i][j].equals(currentMarker) && b[i + 1][j].equals(currentMarker)) {
           int under = j;
           if (j > 0) {
             under -= 1;
           }
-          if (b[i + 3][j].equals(opp)&&((j>0&&!b[i + 2][under].isEmpty()) || (j == 0&&b[i+2][0].isEmpty()))) {
-            pos = i +2;
+          if (b[i + 3][j].equals(currentMarker)&&((j>0&&!b[i +2][under].isEmpty()) || (j == 0&&b[i+2][0].isEmpty()))){
+            pos = i+2;
             break;
+          }
+        }
+
+
+        if (i < 7 && j < 5 && pos == 10 && b[i][j].equals(currentMarker) && b[i + 1][j + 1].equals(currentMarker)) {
+          if (b[i + 3][j + 3].equals(currentMarker) && b[i + 2][j + 2].isEmpty() && !b[i + 2][j + 1].isEmpty()) {
+            pos = i + 2;
+            break;
+          }
+        }
+
+        if (i > 2 && j > 2 && pos == 10 && b[i][j].equals(currentMarker) && b[i - 1][j - 1].equals(currentMarker)) {
+          if (b[i-3][j-3].equals(currentMarker)&&b[i-2][j-2].isEmpty()&&!b[i-2][j-1].isEmpty()){
+            pos = i-2;
+            break;}
+        }
+//               \
+        if (i > 2 && j < 5 && pos == 10 && b[i][j].equals(currentMarker) && b[i - 1][j + 1].equals(currentMarker)) {
+          if (b[i - 3][j + 3].equals(currentMarker) && b[i - 2][j + 2].isEmpty() && !b[i - 2][j + 1].isEmpty()) {
+            pos = i - 2;
+            break;
+          }
+        }
+        if (i<7&&j>2&&b[i][j].equals(currentMarker)&&b[i+1][j-1].equals(currentMarker)){
+          if(b[i+3][j-3].equals(currentMarker)&&b[i+2][j-2].isEmpty()&&!b[i+2][j-3].isEmpty()){
+            pos = i+2;
+            break;
+          }
+        }
+
+      }
+    }
+  }
+
+  public void attack() {
+    threeRow(marker);
+  }
+
+  public void defend() {
+    threeRow(opp);
+  }
+  public void predictDiag(String currentMarker) {
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 8; j++) {
+//                    /
+        if (i < 7 && j < 5 && pos == 10 && b[i][j].equals(currentMarker) && b[i + 1][j + 1].equals(currentMarker)) {
+          if (b[i + 3][j + 3].isEmpty() && !b[i + 3][j + 2].isEmpty()) {
+            pos = i + 3;
+            break;
+          }
+        }
+
+        if (i > 2 && j > 2 && pos == 10 && b[i][j].equals(currentMarker) && b[i - 1][j - 1].equals(currentMarker)) {
+
+          if (b[i - 3][j -3].isEmpty()&&((j>3&&!b[i - 3][j -4].isEmpty())||j==3)){
+            pos = i - 3;
+            break;}
+        }
+//               \
+        if (i > 2 && j < 5 && pos == 10 && b[i][j].equals(currentMarker) && b[i - 1][j + 1].equals(currentMarker)){
+
+          if (b[i-3][j+3].isEmpty()&&!b[i-3][j+2].isEmpty()){
+            pos = i-3;
+            break;
+          }
+          if (i<7&&j>2&&b[i][j].equals(currentMarker)&&b[i+1][j-1].equals(currentMarker)){
+
+            if (b[i+3][j-3].isEmpty()&&((j>3&&!b[i+3][j-4].isEmpty())||j==3)){
+              pos = i+3;
+              break;
+            }
           }
         }
       }
     }
   }
-
-  public void nextBestDefend() {
+  public void twoRow(String currentMarker){
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 8; j++) {
 //                diag
-        if (i < 8 && j < 6 && pos == 10 && b[i][j].equals(opp) && b[i + 1][j + 1].equals(opp) && b[i + 2][j + 2].isEmpty() && !b[i + 2][j + 1].isEmpty()) {
+        if (i < 8 && j < 6 && pos == 10 && b[i][j].equals(currentMarker) && b[i + 1][j + 1].equals(currentMarker) && b[i + 2][j + 2].isEmpty() && !b[i + 2][j + 1].isEmpty()) {
           pos = i + 2;
           break;
         }
-        if (i > 1 && j < 6 && pos == 10 && b[i][j].equals(opp) && b[i - 1][j + 1].equals(opp) && b[i - 2][j + 2].isEmpty() && !b[i - 2][j + 1].isEmpty()) {
+        if (i > 1 && j < 6 && pos == 10 && b[i][j].equals(currentMarker) && b[i - 1][j + 1].equals(currentMarker) && b[i - 2][j + 2].isEmpty() && !b[i - 2][j + 1].isEmpty()) {
           pos = i - 2;
           break;
         }
-
+////                down
+//                    if (j < 6 && pos == 10 && b[i][j].equals(currentMarker) && b[i][j + 1].equals(currentMarker) && b[i][j + 2].isEmpty()) {
+//                        pos = i;
+//                        break;
+//                    }
 //                across
-        if (i < 8 && pos == 10 && b[i][j].equals(opp) && b[i + 1][j].equals(opp)) {
+        if (i < 8 && pos == 10 && b[i][j].equals(currentMarker) && b[i + 1][j].equals(currentMarker)) {
           int under = j;
           if (j > 0) {
             under -= 1;
@@ -184,83 +227,97 @@ public class WhatAGameAi extends Player {
         }
       }
     }
+  }
+  public void nextBestDefend() {
+    twoRow(opp);
   }
 
   public void nextBestAttack() {
+    twoRow(marker);
+  }
+  public void diagAttack(){
+    predictDiag(marker);
+    predictDiag(opp);
+  }
+  public void twoDown(String currentMarker){
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 8; j++) {
-//                diag
-        if (i < 8 && j < 6 && pos == 10 && b[i][j].equals(marker) && b[i + 1][j + 1].equals(marker) && b[i + 2][j + 2].isEmpty() && !b[i + 2][j + 1].isEmpty()) {
-          pos = i + 2;
-          break;
-        }
-        if (i > 1 && j < 6 && pos == 10 && b[i][j].equals(marker) && b[i - 1][j + 1].equals(marker) && b[i - 2][j + 2].isEmpty() && !b[i - 2][j + 1].isEmpty()) {
-          pos = i - 2;
-          break;
-        }
-//                down
-        if (j < 5 && pos == 10 && b[i][j].equals(marker) && b[i][j + 1].equals(marker) && b[i][j + 2].isEmpty()) {
+        if (j < 6 && pos == 10 && b[i][j].equals(currentMarker) && b[i][j + 1].equals(currentMarker) && b[i][j + 2].isEmpty()) {
           pos = i;
           break;
-        }
-//                across
-        if (i < 8 && pos == 10 && b[i][j].equals(marker) && b[i + 1][j].equals(marker)) {
-          int under = j;
-          if (j > 0) {
-            under -= 1;
-          }
-          if (i < 7 && b[i + 2][j].isEmpty()&&(!b[i + 2][under].isEmpty() || j == 0)) {
-            pos = i + 2;
-            break;
-          }
-          if (i > 0 && b[i - 1][j].isEmpty()&&(!b[i - 1][under].isEmpty() || j == 0)) {
-            pos = i - 1;
-            break;
-          }
-        }
-        // down defend
-        if (j < 5 && pos == 10 && b[i][j].equals(opp) && b[i][j + 1].equals(opp) && b[i][j + 2].isEmpty()) {
-          pos = i;
-          break;
-        }
-      }
-    }
-  }
+        }}
+    }}
+  public void twoDownAttack(){
 
+    twoDown(marker);
+    twoDown(opp);
+  }
   public void randomMove() {
     pos = generateRandomPosition();
     while (board.hasCounterAtPosition(new Position(pos, board.getConfig().getHeight() - 2))) {
       pos = generateRandomPosition();
     }
   }
-
+  public void lessRandomMove(){
+    for (int i = 1; i < 9; i++) {
+      for (int j = 0; j < 7; j++) {
+        if (b[i][j].equals(marker)&&pos==10){
+          if (b[i][j+1].isEmpty()){
+            pos = i;
+            break;
+          }
+          if (b[i-1][j].isEmpty()){
+            pos = i-1;
+            break;
+          }
+          if (b[i+1][j].isEmpty()){
+            pos = i-1;
+            break;
+          }
+        }
+      }
+    }
+  }
   @Override
   public int makeMove(Board board) {
     pos = 10;
     this.board = board;
     setMarkers();
     convertBoard();
+    threeDownAttack();
+    downDefend();
     attack();
     if (pos == 10) {
       defend();
     }
-
     if (pos == 10) {
       nextBestDefend();
+    }
+    if (pos == 10){
+      diagAttack();
     }
     if (pos == 10) {
       nextBestAttack();
     }
+
+    if (pos==10){
+      twoDownAttack();
+    }
+
     if (pos == 10) {
+      lessRandomMove();
+    }
+    if (pos == 10){
       randomMove();
     }
     if (pos!= 10){
-      while (board.hasCounterAtPosition(new Position(pos, board.getConfig().getHeight()))) {
+      while (board.hasCounterAtPosition(new Position(pos, board.getConfig().getHeight()-1))) {
         pos = generateRandomPosition();
       }
     }
     return pos;
   }
 }
+
 
 
